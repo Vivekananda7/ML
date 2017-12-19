@@ -1,0 +1,21 @@
+PD<-read.csv("data7.csv",header=TRUE)
+library(ade4)
+DUM<-acm.disjonctif(as.data.frame(PD[,6]))
+PD1<-cbind(PD[,-c(1,6,2)],DUM)
+d1 <- dist(PD1, method = "euclidean")
+hc <- hclust(d1,method="complete")
+hc.ward<-hclust(d1,method="ward.D")
+plot(hc.ward)
+rect.hclust(hc.ward, k=3, border="red")
+cpd <- cutree(hc.ward,k=3)
+Clust_1 <- PD[which(cpd == 1),]
+Clust_2 <- PD[which(cpd == 2),]
+Clust_3 <- PD[which(cpd == 3),]
+colMeans(Clust_1)
+summary(Clust_1)
+summary(Clust_2)
+summary(Clust_3)
+summary(Clust_1[which(Clust_1$group=='H'),])
+summary(Clust_1[which(Clust_1$group=='G'),])
+summary(Clust_2)
+summary(Clust_3)
